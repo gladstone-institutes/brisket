@@ -56,7 +56,9 @@ test-command = "pytest {package}/tests -v"
 
 [tool.cibuildwheel.linux]
 archs = ["x86_64", "aarch64"]
-before-all = "yum install -y gcc-c++ || apt-get update && apt-get install -y g++"
+before-all = [
+    "dnf install -y gcc-c++ || yum install -y gcc-c++ || (apt-get update && apt-get install -y g++)",
+]
 
 [tool.cibuildwheel.macos]
 archs = ["x86_64", "arm64"]
