@@ -53,15 +53,23 @@ numpy = ">=1.21,<2.0"
 build-verbosity = 1
 test-requires = ["pytest", "numpy"]
 test-command = "pytest {package}/tests -v"
+skip = ["cp36-*", "cp37-*", "cp38-*", "pp*"]  # Skip Python < 3.9 and PyPy
+environment = { CIBUILDWHEEL="1" }
 
 [tool.cibuildwheel.linux]
 archs = ["x86_64", "aarch64"]
 before-all = [
     "dnf install -y gcc-c++ || yum install -y gcc-c++ || (apt-get update && apt-get install -y g++)",
 ]
+environment = { CIBUILDWHEEL="1", NPY_NUM_BUILD_JOBS="2" }
 
 [tool.cibuildwheel.macos]
 archs = ["x86_64", "arm64"]
+environment = { CIBUILDWHEEL="1", MACOSX_DEPLOYMENT_TARGET="10.14" }
+before-all = [
+    "python -m pip install --upgrade pip setuptools wheel",
+]
 
 [tool.cibuildwheel.windows]
 archs = ["AMD64"]
+environment = { CIBUILDWHEEL="1" }
