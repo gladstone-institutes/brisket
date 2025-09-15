@@ -1,0 +1,65 @@
+[build-system]
+requires = ["poetry-core>=1.0.0", "cython>=3.0", "numpy>=1.21", "setuptools"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.poetry]
+name = "brisket"
+version = "0.1.0"
+description = "Fast Cython-powered one-hot encoding for DNA sequences"
+authors = ["Natalie Gill", "Sean Whalen"]
+license = "MIT"
+readme = "README.md"
+homepage = "https://github.com/gladstone-institutes/brisket"
+repository = "https://github.com/gladstone-institutes/brisket"
+keywords = ["bioinformatics", "dna", "one-hot-encoding", "cython", "genomics"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Science/Research",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Scientific/Engineering :: Bio-Informatics",
+]
+packages = [{include = "brisket", from = "src"}]
+include = [
+    { path = "src/brisket/**/*.so", format = "wheel" },
+    { path = "src/brisket/**/*.pyd", format = "wheel" }
+]
+exclude = [
+    "src/brisket/**/*.c"
+]
+
+[tool.poetry.build]
+script = "scripts/build-extension.py"
+
+[tool.poetry.dependencies]
+python = "^3.9"
+numpy = ">=1.21,<2.0"
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^8.4.2"
+black = "^25.1.0"
+cython = "^3.1.3"
+
+[tool.poetry.group.build.dependencies]
+cython = "^3.1.3"
+numpy = ">=1.21,<2.0"
+
+
+[tool.cibuildwheel]
+build-verbosity = 1
+test-requires = ["pytest", "numpy"]
+test-command = "pytest {package}/tests -v"
+
+[tool.cibuildwheel.linux]
+archs = ["x86_64", "aarch64"]
+before-all = "yum install -y gcc-c++ || apt-get update && apt-get install -y g++"
+
+[tool.cibuildwheel.macos]
+archs = ["x86_64", "arm64"]
+
+[tool.cibuildwheel.windows]
+archs = ["AMD64"]

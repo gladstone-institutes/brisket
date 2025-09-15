@@ -1,0 +1,1 @@
+from .brisket import hot
