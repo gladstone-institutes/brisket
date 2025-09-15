@@ -75,12 +75,11 @@ manylinux-aarch64-image = "manylinux2014"
 
 [tool.cibuildwheel.macos]
 archs = ["x86_64", "arm64"]
-environment = { "CIBUILDWHEEL"="1", "MACOSX_DEPLOYMENT_TARGET"="10.14", "NPY_NUM_BUILD_JOBS"="4", "CFLAGS"="-O3 -ffast-math -march=native", "CXXFLAGS"="-O3 -ffast-math -march=native" }
+environment = { "CIBUILDWHEEL"="1", "MACOSX_DEPLOYMENT_TARGET"="10.14", "NPY_NUM_BUILD_JOBS"="4", "CFLAGS"="-O3 -ffast-math", "CXXFLAGS"="-O3 -ffast-math" }
 before-build = [
     "python -m pip install --upgrade pip setuptools wheel",
     "python -m pip install cython numpy",
 ]
-repair-wheel-command = "delocate-wheel --require-archs {delocate_archs} -w {dest_dir} -v {wheel}"
 
 [tool.cibuildwheel.windows]
 archs = ["AMD64"]
