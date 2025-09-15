@@ -53,7 +53,6 @@ numpy = ">=1.21,<2.0"
 build = ["cp39-*", "cp310-*", "cp311-*", "cp312-*"]  # Python 3.9-3.12
 skip = ["*-win32", "pp*", "*-musllinux*", "cp313t-*"]  # Skip 32-bit Windows, PyPy, musl, free-threading
 build-verbosity = 2
-debug-traceback = true
 test-requires = ["pytest", "numpy"]
 test-command = "pytest {package}/tests -v"
 test-skip = ["*-macosx_arm64"]  # Skip ARM64 testing if cross-compiling
